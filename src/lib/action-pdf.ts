@@ -12,7 +12,7 @@ export type ActionPdfData = {
 };
 
 export type PdfPalette = { ink: string; muted: string; brand: string; border: string; soft: string; paper: string };
-export type PdfResources = { regularFont: string; boldFont: string; photo?: string; palette: PdfPalette };
+export type PdfResources = { regularFont: string; boldFont: string; photo?: string | undefined; palette: PdfPalette };
 
 // Resolve the page's semantic tokens into sRGB for the PDF drawing engine.
 export function readPdfPalette(): PdfPalette {

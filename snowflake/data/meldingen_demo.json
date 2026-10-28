@@ -1,0 +1,392 @@
+[
+ {
+  "melding_id": "obs-pallet",
+  "titel": "Beschadigde pallet bij dock 4",
+  "beschrijving": "Pallet met dozen staat in de looproute bij dock 4. Twee dekplanken zijn gebroken, de lading helt naar rechts.",
+  "foto_pad": "src/assets/demo-pallet.jpg",
+  "afdeling": "Inbound",
+  "onderwerp": "Veiligheid",
+  "signaal": "rood",
+  "melder": "Sanne de Vries",
+  "dag_offset": -6,
+  "wie": "Ploeg inbound, vroege dienst",
+  "wat": "Beschadigde pallet met overhellende lading in looproute",
+  "waar": "Inbound, dock 4",
+  "wanneer": "Vroege dienst, tijdens lossen",
+  "waarom": "De ontvangstprocedure bevat geen vaste controle op palletschade en geen afgesproken plek voor afgekeurde pallets.",
+  "hoe": "Lading veilig overstapelen, pallet verwijderen en looproute vrijmaken. Leg een palletcontrole bij ontvangst en een afkeurvak vast; controleer dit per dienst.",
+  "waaroms": [
+   {
+    "question": "Waarom staat een beschadigde pallet in de looproute?",
+    "answer": "De beschadigde pallet is na het lossen tijdelijk bij dock 4 neergezet."
+   },
+   {
+    "question": "Waarom is de beschadigde pallet daar neergezet?",
+    "answer": "De schade is pas na het lossen gezien en er was geen herkenbare afkeurplek."
+   },
+   {
+    "question": "Waarom werd de schade pas na het lossen gezien?",
+    "answer": "Bij ontvangst wordt de staat van pallets niet standaard gecontroleerd."
+   },
+   {
+    "question": "Waarom ontbreekt die standaardcontrole?",
+    "answer": "De ontvangstinstructie beschrijft alleen aantallen en goederen, niet palletveiligheid."
+   },
+   {
+    "question": "Waarom is palletveiligheid niet opgenomen?",
+    "answer": "In de ontvangstprocedure zijn geen controleverantwoordelijke en afkeurroute vastgelegd."
+   }
+  ]
+ },
+ {
+  "melding_id": "obs-scanner",
+  "titel": "Handscanners vaak leeg halverwege dienst",
+  "beschrijving": "Drie pickers moesten wachten op een geladen scanner. Laadstation zit vol met defecte toestellen.",
+  "foto_pad": "src/assets/demo-scanner.jpg",
+  "afdeling": "Orderpick",
+  "onderwerp": "Productiviteit",
+  "signaal": "oranje",
+  "melder": "Mark Jansen",
+  "dag_offset": -9,
+  "wie": "Pickers late dienst",
+  "wat": "Wachttijd door lege scanners",
+  "waar": "Laadstation orderpick",
+  "wanneer": "Rond 19:00",
+  "waarom": "Het scannerbeheer kent geen vaste eigenaar voor laadcontrole, afvoer van defecte toestellen en beschikbare reserveapparaten.",
+  "hoe": "Defecte scanners naar ICT sturen en een geladen reservepool inrichten. Wijs een eigenaar aan voor laadcontrole en defectregistratie; meet wachttijd per dienst.",
+  "waaroms": [
+   {
+    "question": "Waarom moeten pickers wachten op scanners?",
+    "answer": "De gebruikte scanners zijn leeg en er liggen geen geladen vervangers klaar."
+   },
+   {
+    "question": "Waarom liggen er geen geladen vervangers klaar?",
+    "answer": "Defecte toestellen bezetten laadplekken en werkende toestellen zijn niet volledig geladen."
+   },
+   {
+    "question": "Waarom blijven defecte toestellen op het laadstation?",
+    "answer": "Defecte scanners worden niet apart gezet en niet tijdig naar ICT gestuurd."
+   },
+   {
+    "question": "Waarom worden ze niet tijdig apart gezet en opgestuurd?",
+    "answer": "Een vaste defectregistratie en dagelijkse laadcontrole ontbreken."
+   },
+   {
+    "question": "Waarom ontbreken deze controles?",
+    "answer": "Er is geen vaste eigenaar voor scannerbeheer en reservebeschikbaarheid."
+   }
+  ]
+ },
+ {
+  "melding_id": "obs-bezetting",
+  "titel": "Onderbezetting outbound op vrijdag",
+  "beschrijving": "Drie vrijdagen achter elkaar 2 FTE minder dan gepland; vrachtwagens vertrekken later.",
+  "foto_pad": "src/assets/demo-outbound.jpg",
+  "afdeling": "Outbound",
+  "onderwerp": "Personeel",
+  "signaal": "rood",
+  "melder": "Peter Bakker",
+  "dag_offset": -4,
+  "wie": "Outbound, vrijdag late dienst",
+  "wat": "Bezetting 2 FTE onder planning",
+  "waar": "Outbound",
+  "wanneer": "Laatste 3 vrijdagen",
+  "waarom": "De personeelsplanning bevat geen vaste controle op vrijdagbeschikbaarheid en geen tijdige escalatie voor aanvullende flexbezetting.",
+  "hoe": "Zet twee flexkrachten in op vrijdag en controleer beschikbaarheid vooraf. Leg het beslismoment en de escalatie vast; vergelijk de bezetting en vertrektijden gedurende drie vrijdagen.",
+  "waaroms": [
+   {
+    "question": "Waarom vertrekken vrachtwagens op vrijdag later?",
+    "answer": "Outbound heeft tijdens de late dienst twee medewerkers minder dan gepland."
+   },
+   {
+    "question": "Waarom zijn er twee medewerkers minder?",
+    "answer": "De geplande inzet houdt onvoldoende rekening met afwezigheid op vrijdag."
+   },
+   {
+    "question": "Waarom is afwezigheid onvoldoende meegenomen?",
+    "answer": "Beschikbaarheid wordt pas kort voor de dienst met het rooster vergeleken."
+   },
+   {
+    "question": "Waarom wordt dit pas zo laat gecontroleerd?",
+    "answer": "Er is geen vast moment om tekorten vooraf te signaleren en flexkrachten te reserveren."
+   },
+   {
+    "question": "Waarom ontbreekt dit moment?",
+    "answer": "De planningsprocedure legt geen beschikbaarheidscontrole en escalatieverantwoordelijke vast."
+   }
+  ]
+ },
+ {
+  "melding_id": "obs-olie",
+  "titel": "Olielekkage heftruck in gang C",
+  "beschrijving": "Plas olie naast heftruck 3, medewerkers lopen eromheen.",
+  "foto_pad": "src/assets/demo-olie.jpg",
+  "afdeling": "Opslag",
+  "onderwerp": "Veiligheid",
+  "signaal": "rood",
+  "melder": "Lotte Visser",
+  "dag_offset": -11,
+  "wie": "Heftruckchauffeurs opslag",
+  "wat": "Olielekkage op vloer",
+  "waar": "Gang C, bij stelling 14",
+  "wanneer": "Ochtenddienst",
+  "waarom": "De onderhoudsplanning beschermt preventief slangonderhoud niet tegen verdringing door acute storingen.",
+  "hoe": "Zet heftruck 3 stil, plaats een lekbak en vervang de hydrauliekslang. Borg preventief onderhoud en controleer wekelijks op lekkage.",
+  "waaroms": [
+   {
+    "question": "Waarom ligt er olie op de vloer?",
+    "answer": "De hydrauliekslang van heftruck 3 lekt."
+   },
+   {
+    "question": "Waarom lekt de slang?",
+    "answer": "De slang is versleten en had al vervangen moeten zijn."
+   },
+   {
+    "question": "Waarom is de slang niet vervangen?",
+    "answer": "Het geplande onderhoud is uitgesteld."
+   },
+   {
+    "question": "Waarom is het onderhoud uitgesteld?",
+    "answer": "De monteur werd op andere storingen ingezet."
+   },
+   {
+    "question": "Waarom gebeurt dat steeds?",
+    "answer": "De onderhoudsplanning heeft geen prioriteit boven acute storingen."
+   }
+  ]
+ },
+ {
+  "melding_id": "obs-afval",
+  "titel": "Afvalcontainers overvol, karton en folie gemengd",
+  "beschrijving": "Containers bij pakstraat puilen uit; folie zit tussen het karton.",
+  "foto_pad": "src/assets/demo-afval.jpg",
+  "afdeling": "Pakstraat",
+  "onderwerp": "Veiligheid",
+  "signaal": "oranje",
+  "melder": "Fatima El Amrani",
+  "dag_offset": -16,
+  "wie": "Inpakkers pakstraat",
+  "wat": "Afval niet gescheiden",
+  "waar": "Containers pakstraat",
+  "wanneer": "Einde dienst",
+  "waarom": "De afvalwerkinstructie legt scheidingspunten, ledigingsmomenten en verantwoordelijkheden niet vast voor de belasting van de pakstraat.",
+  "hoe": "Plaats herkenbare containers met 6S-markering en plan lediging vóór het einde van de dienst. Wijs een eigenaar aan en controleer dagelijks scheiding en vrije doorgang.",
+  "waaroms": [
+   {
+    "question": "Waarom zijn containers overvol en afvalstromen gemengd?",
+    "answer": "Karton en folie worden in dezelfde volle containers weggegooid."
+   },
+   {
+    "question": "Waarom worden beide materialen daar weggegooid?",
+    "answer": "De scheidingspunten zijn niet duidelijk herkenbaar en containers worden te laat geleegd."
+   },
+   {
+    "question": "Waarom zijn herkenning en tijdige lediging niet geregeld?",
+    "answer": "Markering en een vast ledigingsschema ontbreken."
+   },
+   {
+    "question": "Waarom ontbreken markering en een ledigingsschema?",
+    "answer": "De afvalinrichting is niet afgestemd op het afvalvolume per dienst."
+   },
+   {
+    "question": "Waarom is die afstemming niet gemaakt?",
+    "answer": "De werkinstructie heeft geen eigenaar voor capaciteit, scheiding en lediging van afval."
+   }
+  ]
+ },
+ {
+  "melding_id": "obs-tillen",
+  "titel": "Zwaar tillen vanaf lage pallets",
+  "beschrijving": "Medewerkers tillen dozen >20 kg vanaf vloerniveau met gebogen rug.",
+  "foto_pad": "src/assets/demo-tillen.jpg",
+  "afdeling": "Orderpick",
+  "onderwerp": "Personeel",
+  "signaal": "rood",
+  "melder": "Peter Bakker",
+  "dag_offset": -24,
+  "wie": "Pickers zware artikelen",
+  "wat": "Tillen vanaf vloerniveau",
+  "waar": "Orderpick, zone zwaar",
+  "wanneer": "Hele dienst",
+  "waarom": "De tilbelasting is niet als structureel knelpunt in de werkplekinrichting en budgetbesluitvorming meegenomen.",
+  "hoe": "Plaats palletheffers en richt de zware-artikelenzone op werkhoogte in. Controleer het gebruik per dienst en evalueer tilbelasting en klachten.",
+  "waaroms": [
+   {
+    "question": "Waarom tillen medewerkers vanaf vloerniveau?",
+    "answer": "Er is geen palletheffer beschikbaar in de zone."
+   },
+   {
+    "question": "Waarom is er geen palletheffer?",
+    "answer": "Er zijn te weinig palletheffers voor alle zones."
+   },
+   {
+    "question": "Waarom zijn er te weinig?",
+    "answer": "De aanschaf van extra palletheffers is uitgesteld."
+   },
+   {
+    "question": "Waarom is de aanschaf uitgesteld?",
+    "answer": "Er is nog geen besluit genomen over het budget."
+   },
+   {
+    "question": "Waarom is er geen besluit?",
+    "answer": "De tilbelasting is nooit als structureel knelpunt aangemeld."
+   }
+  ]
+ },
+ {
+  "melding_id": "obs-nooduitgang",
+  "titel": "Nooduitgang geblokkeerd door dozen",
+  "beschrijving": "Gestapelde dozen voor nooduitgang inbound west.",
+  "foto_pad": "src/assets/demo-nooduitgang.jpg",
+  "afdeling": "Inbound",
+  "onderwerp": "Veiligheid",
+  "signaal": "groen",
+  "melder": "Sanne de Vries",
+  "dag_offset": -33,
+  "wie": "Inbound late dienst",
+  "wat": "Nooduitgang geblokkeerd",
+  "waar": "Inbound west",
+  "wanneer": "Na lossen",
+  "waarom": "Piekdrukte is niet meegenomen in de werkplekinrichting en afspraken over buffercapaciteit.",
+  "hoe": "Maak de nooduitgang vrij en markeer een vaste bufferplek. Controleer de vrije vluchtroute dagelijks, ook tijdens piekdrukte.",
+  "waaroms": [
+   {
+    "question": "Waarom staan er dozen voor de nooduitgang?",
+    "answer": "Na het lossen wordt overloop tijdelijk daar neergezet."
+   },
+   {
+    "question": "Waarom wordt overloop daar neergezet?",
+    "answer": "Er is geen vaste bufferplek voor overloop."
+   },
+   {
+    "question": "Waarom is er geen bufferplek?",
+    "answer": "De lay-out van inbound is nooit op piekdrukte ingericht."
+   },
+   {
+    "question": "Waarom is de lay-out daar niet op ingericht?",
+    "answer": "Er zijn geen afspraken over buffercapaciteit bij pieken."
+   },
+   {
+    "question": "Waarom ontbreken die afspraken?",
+    "answer": "Piekdrukte is nooit meegenomen in de werkplekinrichting."
+   }
+  ]
+ },
+ {
+  "melding_id": "obs-licht",
+  "titel": "Verlichting gang F defect",
+  "beschrijving": "Halve gang donker, labels slecht leesbaar bij picken.",
+  "foto_pad": "src/assets/demo-verlichting.jpg",
+  "afdeling": "Opslag",
+  "onderwerp": "Productiviteit",
+  "signaal": "oranje",
+  "melder": "Mark Jansen",
+  "dag_offset": -8,
+  "wie": "Pickers opslag",
+  "wat": "Slechte verlichting",
+  "waar": "Gang F",
+  "wanneer": "Avond- en nachtdienst",
+  "waarom": "Het onderhoudsplan bevat geen periodieke verlichtingscontrole en geen eigenaar voor opvolging van defecte armaturen.",
+  "hoe": "Vervang defecte armaturen en voer een lichtmeting uit. Neem verlichting op in de periodieke inspectie; controleer de leesbaarheid van labels tijdens de avonddienst.",
+  "waaroms": [
+   {
+    "question": "Waarom zijn labels in gang F slecht leesbaar?",
+    "answer": "Meerdere armaturen in de gang geven geen licht."
+   },
+   {
+    "question": "Waarom geven de armaturen geen licht?",
+    "answer": "Defecte lampen zijn niet tijdig vervangen."
+   },
+   {
+    "question": "Waarom zijn de defecte lampen niet tijdig vervangen?",
+    "answer": "De uitval is niet tijdens een vaste inspectie gemeld en opgevolgd."
+   },
+   {
+    "question": "Waarom is er geen vaste inspectie en opvolging?",
+    "answer": "Verlichting wordt alleen gecontroleerd na een storingsmelding."
+   },
+   {
+    "question": "Waarom wordt alleen na een melding gecontroleerd?",
+    "answer": "Het onderhoudsplan bevat geen periodieke lichtcontrole met een verantwoordelijke."
+   }
+  ]
+ },
+ {
+  "melding_id": "obs-olie-oud",
+  "titel": "Olielekkage heftruck 2 in gang B",
+  "beschrijving": "Tijdens de ochtenddienst ligt olie onder heftruck 2 in gang B; de hydrauliekslang vertoont slijtage.",
+  "foto_pad": "src/assets/olielekkage.jpg",
+  "afdeling": "Opslag",
+  "onderwerp": "Veiligheid",
+  "signaal": "groen",
+  "melder": "Lotte Visser",
+  "dag_offset": -66,
+  "wie": "Heftruckchauffeurs opslag, ochtenddienst",
+  "wat": "Olie uit een versleten hydrauliekslang van heftruck 2 ligt op de vloer",
+  "waar": "Gang B, bij laadplek heftruck 2",
+  "wanneer": "Ochtenddienst, bij de startcontrole",
+  "waarom": "De onderhoudscheck bevatte geen vaste inspectie van hydrauliekslangen en geen preventief vervangmoment.",
+  "hoe": "Slang vervangen en lekbak met absorptiekorrels bij de laadplek plaatsen. Neem slangen op in de wekelijkse check en controleer acht weken op nieuwe lekkage.",
+  "waaroms": [
+   {
+    "question": "Waarom ligt er olie onder heftruck 2?",
+    "answer": "Een hydrauliekslang lekt olie op de vloer."
+   },
+   {
+    "question": "Waarom lekt de hydrauliekslang?",
+    "answer": "De slang is versleten en niet preventief vervangen."
+   },
+   {
+    "question": "Waarom is de slang niet preventief vervangen?",
+    "answer": "De slijtage is niet tijdens de onderhoudscheck gesignaleerd."
+   },
+   {
+    "question": "Waarom is de slijtage niet gesignaleerd?",
+    "answer": "Hydrauliekslangen stonden niet expliciet op de checklist."
+   },
+   {
+    "question": "Waarom stonden slangen niet op de checklist?",
+    "answer": "Het onderhoudsplan legde geen periodieke slanginspectie en preventieve vervangcriteria vast."
+   }
+  ]
+ },
+ {
+  "melding_id": "obs-scanner-oud",
+  "titel": "Lege scanners door onhandig geplaatst laadstation",
+  "beschrijving": "Pickers starten met onvoldoende geladen scanners; het laadstation staat buiten de gebruikelijke pickroute.",
+  "foto_pad": "src/assets/laadstation.jpg",
+  "afdeling": "Orderpick",
+  "onderwerp": "Productiviteit",
+  "signaal": "groen",
+  "melder": "Peter Bakker",
+  "dag_offset": -50,
+  "wie": "Pickers orderpick, vroege en late dienst",
+  "wat": "Pickers wachten op geladen scanners tijdens de dienst",
+  "waar": "Orderpick, laadstation buiten de pickroute",
+  "wanneer": "Bij dienststart en na de pauze",
+  "waarom": "De werkplekinrichting en werkinstructie bevatten geen laadplek op de pickroute en geen vast wisselmoment.",
+  "hoe": "Verplaats het laadstation naar het begin van de pickroute en spreek een wisselmoment bij de pauze af. Vergelijk de wachttijd vóór en na de verplaatsing.",
+  "waaroms": [
+   {
+    "question": "Waarom wachten pickers op geladen scanners?",
+    "answer": "Hun scanner raakt leeg en een geladen vervanger ligt niet direct klaar."
+   },
+   {
+    "question": "Waarom ligt een geladen vervanger niet klaar?",
+    "answer": "Scanners worden niet consequent teruggebracht en opgeladen."
+   },
+   {
+    "question": "Waarom worden ze niet consequent opgeladen?",
+    "answer": "Het laadstation ligt buiten de pickroute en een vast wisselmoment ontbreekt."
+   },
+   {
+    "question": "Waarom ligt het station buiten de route en ontbreekt een wisselmoment?",
+    "answer": "Het station is geplaatst op een vrije plek zonder het werkproces mee te nemen."
+   },
+   {
+    "question": "Waarom is het werkproces niet meegenomen?",
+    "answer": "De werkplekinrichting en werkinstructie bevatten geen afspraken over laden en wisselen van scanners."
+   }
+  ]
+ }
+]

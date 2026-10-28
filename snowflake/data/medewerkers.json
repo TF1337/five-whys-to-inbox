@@ -1,0 +1,32 @@
+[
+ {
+  "naam": "Sanne de Vries",
+  "rol": "Melder (ingelogde demogebruiker)",
+  "is_huidige_gebruiker": true
+ },
+ {
+  "naam": "Mark Janssen",
+  "rol": "VGWM-coördinator",
+  "is_huidige_gebruiker": false
+ },
+ {
+  "naam": "Bram Hendriks",
+  "rol": "Teamleider Expeditie",
+  "is_huidige_gebruiker": false
+ },
+ {
+  "naam": "Linda Bakker",
+  "rol": "Teamleider Picking",
+  "is_huidige_gebruiker": false
+ },
+ {
+  "naam": "Joris van Dijk",
+  "rol": "Heftruckchauffeur",
+  "is_huidige_gebruiker": false
+ },
+ {
+  "naam": "Eva Smits",
+  "rol": "Milieucoördinator",
+  "is_huidige_gebruiker": false
+ }
+]

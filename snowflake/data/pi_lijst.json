@@ -1,0 +1,112 @@
+[
+ {
+  "onderwerp": "Veiligheid",
+  "pi": "Gedragsregels",
+  "volgorde": 1
+ },
+ {
+  "onderwerp": "Veiligheid",
+  "pi": "Incidenten met letsel",
+  "volgorde": 2
+ },
+ {
+  "onderwerp": "Veiligheid",
+  "pi": "Incidenten zonder letsel",
+  "volgorde": 3
+ },
+ {
+  "onderwerp": "Veiligheid",
+  "pi": "Near misses: 30 dagen",
+  "volgorde": 4
+ },
+ {
+  "onderwerp": "Kwaliteit",
+  "pi": "Retouren binnen SLA",
+  "volgorde": 1
+ },
+ {
+  "onderwerp": "Kwaliteit",
+  "pi": "Leeftijd retouren",
+  "volgorde": 2
+ },
+ {
+  "onderwerp": "Kwaliteit",
+  "pi": "Inbound doorlooptijd",
+  "volgorde": 3
+ },
+ {
+  "onderwerp": "Kwaliteit",
+  "pi": "HBV doorlooptijd",
+  "volgorde": 4
+ },
+ {
+  "onderwerp": "Kwaliteit",
+  "pi": "Outbound vóór 18u",
+  "volgorde": 5
+ },
+ {
+  "onderwerp": "Kwaliteit",
+  "pi": "Inbound na 12u",
+  "volgorde": 6
+ },
+ {
+  "onderwerp": "Kwaliteit",
+  "pi": "Orders in Full",
+  "volgorde": 7
+ },
+ {
+  "onderwerp": "Kwaliteit",
+  "pi": "Stock zelfde dag",
+  "volgorde": 8
+ },
+ {
+  "onderwerp": "Kwaliteit",
+  "pi": "Print dag na laatste PF-scan",
+  "volgorde": 9
+ },
+ {
+  "onderwerp": "Productiviteit",
+  "pi": "Retouren Index",
+  "volgorde": 1
+ },
+ {
+  "onderwerp": "Productiviteit",
+  "pi": "OFM Index",
+  "volgorde": 2
+ },
+ {
+  "onderwerp": "Productiviteit",
+  "pi": "WPL Index",
+  "volgorde": 3
+ },
+ {
+  "onderwerp": "Productiviteit",
+  "pi": "Healthcare Index",
+  "volgorde": 4
+ },
+ {
+  "onderwerp": "Productiviteit",
+  "pi": "WPI direct",
+  "volgorde": 5
+ },
+ {
+  "onderwerp": "Personeel",
+  "pi": "Ziekteverzuim",
+  "volgorde": 1
+ },
+ {
+  "onderwerp": "Personeel",
+  "pi": "Lang verzuim",
+  "volgorde": 2
+ },
+ {
+  "onderwerp": "Personeel",
+  "pi": "Verhouding vast / flex",
+  "volgorde": 3
+ },
+ {
+  "onderwerp": "Personeel",
+  "pi": "Aandeel flex",
+  "volgorde": 4
+ }
+]

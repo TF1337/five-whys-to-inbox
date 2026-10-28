@@ -1,0 +1,257 @@
+[
+ {
+  "actie_id": "act-pallet",
+  "melding_id": "obs-pallet",
+  "titel": "Pallet verwijderen en looproute dock 4 vrijhouden",
+  "kpi": "SLA Healthcare",
+  "afwijking": "Beschadigde pallet bij dock 4",
+  "onderwerp": "Veiligheid",
+  "afdeling": "Inbound",
+  "eigenaar": "Mark Jansen",
+  "deadline_offset": -1,
+  "aanpak": "Change",
+  "status": "In uitvoering",
+  "feedback": [
+   {
+    "id": "f1",
+    "date": "2026-10-23",
+    "author": "Mark Jansen",
+    "text": "Pallet afgezet met kegels, lading wordt overgestapeld."
+   }
+  ],
+  "gedaan": "",
+  "resultaat": "",
+  "dag_offset": -6,
+  "gekoppelde_actie_id": null
+ },
+ {
+  "actie_id": "act-scanner-1",
+  "melding_id": "obs-scanner",
+  "titel": "Defecte scanners retour naar ICT en reservepool inrichten",
+  "kpi": "SLA Healthcare",
+  "afwijking": "Handscanners vaak leeg",
+  "onderwerp": "Productiviteit",
+  "afdeling": "Orderpick",
+  "eigenaar": "Peter Bakker",
+  "deadline_offset": 3,
+  "aanpak": "Actie / Just Do It",
+  "status": "Wacht op besluit",
+  "feedback": [
+   {
+    "id": "f2a",
+    "date": "2026-10-08",
+    "author": "Peter Bakker",
+    "text": "4 defecte scanners retour gestuurd naar ICT."
+   },
+   {
+    "id": "f2b",
+    "date": "2026-10-15",
+    "author": "Peter Bakker",
+    "text": "Reservepool van 3 scanners ingericht, wachttijd minder."
+   },
+   {
+    "id": "f2",
+    "date": "2026-10-25",
+    "author": "Peter Bakker",
+    "text": "Budget voor 6 extra scanners nodig — besluit MT."
+   }
+  ],
+  "gedaan": "",
+  "resultaat": "",
+  "dag_offset": -22,
+  "gekoppelde_actie_id": "act-scanner-oud"
+ },
+ {
+  "actie_id": "act-bezetting",
+  "melding_id": "obs-bezetting",
+  "titel": "Flexpool inzetten op vrijdag outbound",
+  "kpi": "SLA Healthcare",
+  "afwijking": "Onderbezetting outbound vrijdag",
+  "onderwerp": "Personeel",
+  "afdeling": "Outbound",
+  "eigenaar": "Jeroen Smit",
+  "deadline_offset": -2,
+  "aanpak": "PDCA / 6S",
+  "status": "Wacht op besluit",
+  "feedback": [
+   {
+    "id": "f-bez",
+    "date": "2026-10-26",
+    "author": "Jeroen Smit",
+    "text": "Uitzendbureau kan 2 flexkrachten leveren — besluit nodig over kosten."
+   }
+  ],
+  "gedaan": "",
+  "resultaat": "",
+  "dag_offset": -4,
+  "gekoppelde_actie_id": null
+ },
+ {
+  "actie_id": "act-olie",
+  "melding_id": "obs-olie",
+  "titel": "Lekbak plaatsen en hydrauliekslang heftruck 3 vervangen",
+  "kpi": "SLA Healthcare",
+  "afwijking": "Olielekkage heftruck gang C",
+  "onderwerp": "Veiligheid",
+  "afdeling": "Opslag",
+  "eigenaar": "Lotte Visser",
+  "deadline_offset": -3,
+  "aanpak": "Actie / Just Do It",
+  "status": "In uitvoering",
+  "feedback": [
+   {
+    "id": "f-olie",
+    "date": "2026-10-18",
+    "author": "Lotte Visser",
+    "text": "Lekbak geplaatst, monteur ingepland."
+   }
+  ],
+  "gedaan": "",
+  "resultaat": "",
+  "dag_offset": -11,
+  "gekoppelde_actie_id": "act-olie-oud"
+ },
+ {
+  "actie_id": "act-afval",
+  "melding_id": "obs-afval",
+  "titel": "Afvalscheiding pakstraat inrichten met 6S-markering",
+  "kpi": "SLA Healthcare",
+  "afwijking": "Afval niet gescheiden",
+  "onderwerp": "Veiligheid",
+  "afdeling": "Pakstraat",
+  "eigenaar": "Fatima El Amrani",
+  "deadline_offset": 4,
+  "aanpak": "PDCA / 6S",
+  "status": "Open",
+  "feedback": [
+   {
+    "id": "f-afv",
+    "date": "2026-10-19",
+    "author": "Fatima El Amrani",
+    "text": "Gekleurde containers besteld, vloermarkering volgt."
+   }
+  ],
+  "gedaan": "",
+  "resultaat": "",
+  "dag_offset": -16,
+  "gekoppelde_actie_id": null
+ },
+ {
+  "actie_id": "act-tillen",
+  "melding_id": "obs-tillen",
+  "titel": "A3: tilbelasting zone zwaar structureel verlagen",
+  "kpi": "SLA Healthcare",
+  "afwijking": "Zwaar tillen vanaf lage pallets",
+  "onderwerp": "Personeel",
+  "afdeling": "Orderpick",
+  "eigenaar": "Peter Bakker",
+  "deadline_offset": 14,
+  "aanpak": "Change",
+  "status": "Wacht op besluit",
+  "feedback": [
+   {
+    "id": "f-tillen",
+    "date": "2026-10-09",
+    "author": "Peter Bakker",
+    "text": "Voorstel palletheffers + herindeling zone klaar voor MT."
+   }
+  ],
+  "gedaan": "",
+  "resultaat": "",
+  "dag_offset": -24,
+  "gekoppelde_actie_id": null
+ },
+ {
+  "actie_id": "act-nooduitgang",
+  "melding_id": "obs-nooduitgang",
+  "titel": "Nooduitgang vrijmaken en bufferplek markeren",
+  "kpi": "SLA Healthcare",
+  "afwijking": "Nooduitgang geblokkeerd",
+  "onderwerp": "Veiligheid",
+  "afdeling": "Inbound",
+  "eigenaar": "Sanne de Vries",
+  "deadline_offset": -30,
+  "aanpak": "Actie / Just Do It",
+  "status": "Resultaat gecontroleerd",
+  "feedback": [
+   {
+    "id": "f-nood",
+    "date": "2026-09-26",
+    "author": "Sanne de Vries",
+    "text": "Dozen weggehaald, bufferplek met geel belijnd vak gemarkeerd."
+   }
+  ],
+  "gedaan": "Nooduitgang vrij, bufferplek met geel belijnd vak gemarkeerd.",
+  "resultaat": "Bij 3 rondes daarna bleef de nooduitgang vrij.",
+  "dag_offset": -33,
+  "gekoppelde_actie_id": null
+ },
+ {
+  "actie_id": "act-licht",
+  "melding_id": "obs-licht",
+  "titel": "Verlichting gang F herstellen en lichtmeting doen",
+  "kpi": "SLA Healthcare",
+  "afwijking": "Verlichting gang F defect",
+  "onderwerp": "Productiviteit",
+  "afdeling": "Opslag",
+  "eigenaar": "Mark Jansen",
+  "deadline_offset": -1,
+  "aanpak": "PDCA / 6S",
+  "status": "Uitgevoerd",
+  "feedback": [
+   {
+    "id": "f-licht",
+    "date": "2026-10-21",
+    "author": "Mark Jansen",
+    "text": "Storing gemeld bij technische dienst."
+   }
+  ],
+  "gedaan": "Armaturen vervangen door LED, lichtmeting 500 lux.",
+  "resultaat": "",
+  "dag_offset": -8,
+  "gekoppelde_actie_id": null
+ },
+ {
+  "actie_id": "act-olie-oud",
+  "melding_id": "obs-olie-oud",
+  "titel": "Olielekkage heftruck 2: slang vervangen en lekbak standaard",
+  "kpi": "SLA Healthcare",
+  "afwijking": "Olielekkage heftruck gang B",
+  "onderwerp": "Veiligheid",
+  "afdeling": "Opslag",
+  "eigenaar": "Lotte Visser",
+  "deadline_offset": -60,
+  "aanpak": "Actie / Just Do It",
+  "status": "Resultaat gecontroleerd",
+  "feedback": [
+   {
+    "id": "f-olie-oud",
+    "date": "2026-08-25",
+    "author": "Lotte Visser",
+    "text": "Monteur binnen 24 uur, lekbak standaard bij laadplek."
+   }
+  ],
+  "gedaan": "Hydrauliekslang vervangen, lekbak + absorptiekorrels vast bij laadplek, slangen in wekelijkse check opgenomen.",
+  "resultaat": "8 weken geen lekkage meer bij heftruck 2.",
+  "dag_offset": -66,
+  "gekoppelde_actie_id": null
+ },
+ {
+  "actie_id": "act-scanner-oud",
+  "melding_id": "obs-scanner-oud",
+  "titel": "Laadstation scanners verplaatst naar begin pickroute",
+  "kpi": "SLA Healthcare",
+  "afwijking": "Handscanners leeg tijdens dienst",
+  "onderwerp": "Productiviteit",
+  "afdeling": "Orderpick",
+  "eigenaar": "Peter Bakker",
+  "deadline_offset": -45,
+  "aanpak": "PDCA / 6S",
+  "status": "Resultaat gecontroleerd",
+  "feedback": [],
+  "gedaan": "Laadstation verplaatst, wisselmoment bij pauze afgesproken.",
+  "resultaat": "Wachttijd op scanners 40% lager.",
+  "dag_offset": -50,
+  "gekoppelde_actie_id": null
+ }
+]

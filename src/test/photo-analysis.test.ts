@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { emptyForm } from "@/data/examples";
-import { applyPhotoAnalysis } from "@/lib/photo-analysis";
+import { emptyForm, examples } from "@/data/examples";
+import { applyPhotoAnalysis, isCompletelyFilled } from "@/lib/photo-analysis";
 
 const analysis = { what: "Dozen blokkeren de nooduitgang.", why: "Hypothese, te toetsen: bufferafspraken ontbreken.", how: "Maak de uitgang vrij en toets de bufferafspraken.", whys: Array.from({ length: 5 }, (_, i) => ({ question: `Waarom stap ${i + 1}?`, answer: `Hypothese, te toetsen: oorzaak ${i + 1}.` })) };
 describe("Photo analysis form rules", () => {

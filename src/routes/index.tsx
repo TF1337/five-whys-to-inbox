@@ -1,14 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import { sendActionEmail } from "@/lib/send-action.functions";
+import { createActionPdf, preparePdfResources } from "@/lib/action-pdf";
+import { deliverFile } from "@/lib/download-file";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
-import { Camera, Check, ChevronDown, ChevronUp, ImagePlus, LoaderCircle, Plus, RotateCcw, Save, Sparkles, Square, Target, X } from "lucide-react";
+import { Camera, Check, ChevronDown, ChevronUp, Download, ImagePlus, LoaderCircle, Plus, RotateCcw, Sparkles, Square, Target, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useApp, uid } from "@/data/store";
-import { KPI_LEVERTIJD_ZORG, isoDay } from "@/data/mock";
+import { useApp } from "@/data/store";
 import { TOPICS, type Observation, type Priority, type Topic } from "@/data/types";
 import { assignees, currentUser, emptyForm, examples, kpiMeasures, type CoachForm } from "@/data/examples";
 import { cn } from "@/lib/utils";
@@ -57,10 +56,11 @@ function formFromObservation(o: Observation): CoachForm {
 }
 
 function NewActionPage() {
-  const sendEmail = useServerFn(sendActionEmail);
   const [sending, setSending] = useState(false);
+  const [preparedPdf, setPreparedPdf] = useState<{ data: string; blob: Blob } | null>(null);
+  const [pdfError, setPdfError] = useState("");
   const { actie: editId } = Route.useSearch();
-  const { actions, observations, upsertAction, upsertObservation } = useApp();
+  const { actions, observations } = useApp();
   const editing = editId ? actions.find((a) => a.id === editId) : undefined;
   const editingObs = editing?.observationId ? observations.find((o) => o.id === editing.observationId) : undefined;
   const [form, setForm] = useState<CoachForm>(() => (editingObs ? formFromObservation(editingObs) : { ...(examples[0] ?? emptyForm), tag: "Veiligheid", where: "OVM" }));
@@ -151,40 +151,40 @@ function NewActionPage() {
     setExpanded(true);
   }
 
+  const shownPhoto = photo || form.photo;
+  const pdfData = JSON.stringify({ form, wie: editingObs?.w5h.wie ?? currentUser, wanneer: editingObs?.w5h.wanneer ?? now, eigenaar: assignee, termijn, aanpak, score: analysisScore });
+  useEffect(() => {
+    let active = true;
+    setPdfError("");
+    if (!form.what.trim() || !now) return;
+    preparePdfResources(shownPhoto)
+      .then(resources => createActionPdf(JSON.parse(pdfData), resources).output("blob"))
+      .then(blob => { if (active) setPreparedPdf({ data: pdfData, blob }); })
+      .catch(err => { if (active) setPdfError(err instanceof Error ? err.message : "De PDF kon niet worden gemaakt."); });
+    return () => { active = false; };
+  }, [pdfData, shownPhoto, now]);
+
   async function save() {
     if (!form.what.trim()) {
       setError("Vul bij 'Wat' de feitelijke waarneming in.");
       return;
     }
+    if (preparedPdf?.data !== pdfData) {
+      setError(pdfError || "De PDF wordt nog voorbereid. Probeer zo opnieuw.");
+      return;
+    }
     setSending(true);
     setError("");
     try {
-            await sendEmail({ data: {
-        submissionId: crypto.randomUUID(),
-        onderwerp: form.tag,
-        indicatoren: form.indicators,
-        wie: editingObs?.w5h.wie ?? currentUser,
-        wanneer: editingObs?.w5h.wanneer ?? now,
-        waar: form.where,
-        wat: form.what.trim(),
-        waarom: form.why,
-        whys: form.whys.map((w) => ({ question: w.question, answer: w.answer })),
-        hoe: form.how,
-        eigenaar: assignee,
-        termijn,
-        aanpak,
-        koppeling: "",
-        score: analysisScore,
-      } });
-      toast.success("Actie verstuurd");
+      await deliverFile(preparedPdf.blob, `5w1h-actie-${form.where.toLowerCase()}-${new Date().toISOString().slice(0, 10)}.pdf`);
+      toast.success("PDF geëxporteerd");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Versturen is mislukt.");
+      setError(err instanceof Error ? err.message : "PDF exporteren is mislukt.");
     } finally {
       setSending(false);
     }
   }
 
-  const shownPhoto = photo || form.photo;
   const filledIn = isCompletelyFilled(form);
   const measures = kpiMeasures[form.tag] ?? [];
 
@@ -476,17 +476,17 @@ function NewActionPage() {
 
 
 
-            {error && (
+            {(error || pdfError) && (
               <p role="alert" className="text-xs text-destructive">
-                {error}
+                {error || pdfError}
               </p>
             )}
           </fieldset>
           <div className="flex items-center justify-between gap-3 border-t bg-card px-6 py-4">
             <Toaster />
             <span />
-            <Button disabled={analysing || sending} onClick={save}>
-              {sending ? <LoaderCircle className="animate-spin" /> : <Save />} Actie opslaan
+            <Button disabled={analysing || sending || (!!form.what.trim() && preparedPdf?.data !== pdfData && !pdfError)} onClick={save}>
+              {sending || (!!form.what.trim() && preparedPdf?.data !== pdfData && !pdfError) ? <LoaderCircle className="animate-spin" /> : <Download />} Exporteren naar PDF
             </Button>
           </div>
         </section>

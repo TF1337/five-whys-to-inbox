@@ -1,7 +1,11 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
+import { sendActionEmail } from "@/lib/send-action.functions";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
-import { ArrowLeft, Camera, Check, ChevronDown, ChevronUp, ImagePlus, LoaderCircle, Plus, RotateCcw, Save, Sparkles, Square, Target, X } from "lucide-react";
+import { Camera, Check, ChevronDown, ChevronUp, ImagePlus, LoaderCircle, Plus, RotateCcw, Save, Sparkles, Square, Target, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useApp, uid } from "@/data/store";
 import { KPI_LEVERTIJD_ZORG, isoDay } from "@/data/mock";
@@ -13,7 +17,7 @@ import { applyPhotoAnalysis, ZONES } from "@/lib/photo-analysis";
 import { analysePhoto } from "@/lib/analyse-photo";
 import { AnalysisScore } from "@/components/AnalysisScore";
 
-export const Route = createFileRoute("/nieuw")({
+export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Nieuwe actie — SLA Healthcare" },
@@ -53,7 +57,8 @@ function formFromObservation(o: Observation): CoachForm {
 }
 
 function NewActionPage() {
-  const navigate = useNavigate();
+  const sendEmail = useServerFn(sendActionEmail);
+  const [sending, setSending] = useState(false);
   const { actie: editId } = Route.useSearch();
   const { actions, observations, upsertAction, upsertObservation } = useApp();
   const editing = editId ? actions.find((a) => a.id === editId) : undefined;
@@ -147,54 +152,38 @@ function NewActionPage() {
     setExpanded(true);
   }
 
-  function save() {
+  async function save() {
     if (!form.what.trim()) {
       setError("Vul bij 'Wat' de feitelijke waarneming in.");
       return;
     }
-    const days = Number.parseInt(termijn, 10);
-    const obsId = editing?.observationId ?? uid("obs");
-    const shown = photo || form.photo || undefined;
-    upsertObservation({
-      id: obsId,
-      title: form.what.trim().slice(0, 80),
-      description: form.description || form.what.trim(),
-      photo: shown,
-      dept: form.where || editingObs?.dept || "Inbound",
-      topic: form.tag,
-      signal: editingObs?.signal ?? "oranje",
-      reporter: editingObs?.reporter ?? currentUser,
-      createdAt: editingObs?.createdAt ?? isoDay(0),
-      w5h: {
+    setSending(true);
+    setError("");
+    try {
+      const linked = actions.find((a) => a.id === linkedId);
+      await sendEmail({ data: {
+        submissionId: crypto.randomUUID(),
+        onderwerp: form.tag,
+        indicatoren: form.indicators,
         wie: editingObs?.w5h.wie ?? currentUser,
-        wat: form.what.trim(),
-        waar: form.where,
         wanneer: editingObs?.w5h.wanneer ?? now,
+        waar: form.where,
+        wat: form.what.trim(),
         waarom: form.why,
+        whys: form.whys.map((w) => ({ question: w.question, answer: w.answer })),
         hoe: form.how,
-      },
-      whys: form.whys,
-      waaromOnbekend: !form.why.trim(),
-    });
-    upsertAction({
-      id: editing?.id ?? uid("act"),
-      title: editing?.title ?? (form.how.trim() ? form.how.trim().slice(0, 90) : form.what.trim().slice(0, 90)),
-      observationId: obsId,
-      kpi: KPI_LEVERTIJD_ZORG,
-      deviation: form.what.trim().slice(0, 80),
-      topic: form.tag,
-      dept: form.where || editing?.dept || "Inbound",
-      owner: assignee ? (assignee.split(" · ")[0] ?? currentUser) : (editing?.owner ?? currentUser),
-      due: isoDay(days),
-      priority: aanpak,
-      status: editing?.status ?? "Open",
-      feedback: editing?.feedback ?? [],
-      gedaan: editing?.gedaan ?? "",
-      linkedActionId: linkedId || undefined,
-      resultaat: editing?.resultaat ?? "",
-      createdAt: editing?.createdAt ?? isoDay(0),
-    });
-    navigate({ to: "/acties" });
+        eigenaar: assignee,
+        termijn,
+        aanpak,
+        koppeling: linked?.title ?? "",
+        score: analysisScore,
+      } });
+      toast.success("Actie verstuurd");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Versturen is mislukt.");
+    } finally {
+      setSending(false);
+    }
   }
 
   const shownPhoto = photo || form.photo;
@@ -205,9 +194,6 @@ function NewActionPage() {
       <main className="mx-auto max-w-3xl px-4 py-8">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <Link to="/acties" className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground">
-              <ArrowLeft className="h-4 w-4" /> Actielijst SLA Healthcare
-            </Link>
             <h1 className="mt-1 text-3xl font-bold">{editing ? "Actie bewerken" : "Nieuwe actie"}</h1>
           </div>
           {!editing && (
@@ -508,11 +494,10 @@ function NewActionPage() {
               {aiDone && <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground"><Check className="size-3.5" /> Analyse ingevuld · niet opgeslagen</span>}
             </div>
           <div className="flex items-center justify-between gap-3 border-t bg-card px-6 py-4">
-            <Button variant="ghost" asChild>
-              <Link to="/acties">Annuleren</Link>
-            </Button>
-            <Button disabled={analysing} onClick={save}>
-              <Save /> Actie opslaan
+            <Toaster />
+            <span />
+            <Button disabled={analysing || sending} onClick={save}>
+              {sending ? <LoaderCircle className="animate-spin" /> : <Save />} Actie opslaan
             </Button>
           </div>
         </section>

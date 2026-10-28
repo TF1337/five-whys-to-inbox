@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Action export uses a browser-generated, single-page PDF with bundled Unicode fonts and semantic page colors; prepare the Blob before clicking so downloads retain user activation on mobile and no email service is needed.

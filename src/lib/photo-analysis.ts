@@ -10,6 +10,17 @@ export const analysisSchema = z.object({
 }).strict();
 export type PhotoAnalysis = z.infer<typeof analysisSchema>;
 
+export function isCompletelyFilled(form: CoachForm): boolean {
+  const answers = form.whys.filter((w) => w.question.trim().length > 0);
+  return (
+    form.what.trim().length > 0 &&
+    form.why.trim().length > 0 &&
+    form.how.trim().length > 0 &&
+    answers.length === 5 &&
+    answers.every((w) => w.answer.trim().length > 0)
+  );
+}
+
 export function applyPhotoAnalysis(form: CoachForm, analysis: PhotoAnalysis): CoachForm {
   if (analysis.whys.length !== 5 || !analysis.what.trim() || !analysis.why.trim() || !analysis.how.trim() || analysis.whys.some(w => !w.question.trim() || !w.answer.trim())) {
     throw new Error("De fotoanalyse is onvolledig; je bestaande invoer is behouden.");

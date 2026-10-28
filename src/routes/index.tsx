@@ -12,8 +12,7 @@ import { KPI_LEVERTIJD_ZORG, isoDay } from "@/data/mock";
 import { TOPICS, type Observation, type Priority, type Topic } from "@/data/types";
 import { assignees, currentUser, emptyForm, examples, kpiMeasures, type CoachForm } from "@/data/examples";
 import { cn } from "@/lib/utils";
-import { isFinished } from "@/lib/sentinel";
-import { applyPhotoAnalysis, ZONES } from "@/lib/photo-analysis";
+import { applyPhotoAnalysis } from "@/lib/photo-analysis";
 import { analysePhoto } from "@/lib/analyse-photo";
 import { AnalysisScore } from "@/components/AnalysisScore";
 
@@ -34,6 +33,7 @@ export const Route = createFileRoute("/")({
   component: NewActionPage,
 });
 
+const WAAR_OPTIES = ["OVM", "LDC"] as const;
 const TERMIJNEN = ["7 dagen", "14 dagen", "21 dagen", "28 dagen"] as const;
 const AANPAKKEN: Priority[] = ["Actie / Just Do It", "PDCA / 6S", "Change"];
 
@@ -63,7 +63,7 @@ function NewActionPage() {
   const { actions, observations, upsertAction, upsertObservation } = useApp();
   const editing = editId ? actions.find((a) => a.id === editId) : undefined;
   const editingObs = editing?.observationId ? observations.find((o) => o.id === editing.observationId) : undefined;
-  const [form, setForm] = useState<CoachForm>(() => (editingObs ? formFromObservation(editingObs) : { ...(examples[0] ?? emptyForm), where: ZONES[0] }));
+  const [form, setForm] = useState<CoachForm>(() => (editingObs ? formFromObservation(editingObs) : { ...(examples[0] ?? emptyForm), tag: "Veiligheid", where: "OVM" }));
   const [exampleIndex, setExampleIndex] = useState(editing ? -1 : 0);
   const isExample = exampleIndex >= 0;
   const [photo, setPhoto] = useState<string | null>(null);
@@ -74,7 +74,6 @@ function NewActionPage() {
     return `${nearest} dagen` as (typeof TERMIJNEN)[number];
   });
   const [aanpak, setAanpak] = useState<Priority>(editing?.priority ?? "Actie / Just Do It");
-  const [linkedId, setLinkedId] = useState(editing?.linkedActionId ?? "");
   const [assignee, setAssignee] = useState(() => {
     const match = assignees.find((p) => p.name === editing?.owner);
     return match ? `${match.name} · ${match.role}` : "";
@@ -142,7 +141,7 @@ function NewActionPage() {
     setAiDone(false);
     setAnalysisScore(null);
     setPiWeights({});
-    setForm({ ...(next ?? emptyForm), where: form.where });
+    setForm({ ...(next ?? emptyForm), tag: "Veiligheid", where: form.where });
     setExampleIndex(nextIndex);
     setPhoto(null);
     setError("");
@@ -160,8 +159,7 @@ function NewActionPage() {
     setSending(true);
     setError("");
     try {
-      const linked = actions.find((a) => a.id === linkedId);
-      await sendEmail({ data: {
+            await sendEmail({ data: {
         submissionId: crypto.randomUUID(),
         onderwerp: form.tag,
         indicatoren: form.indicators,
@@ -175,7 +173,7 @@ function NewActionPage() {
         eigenaar: assignee,
         termijn,
         aanpak,
-        koppeling: linked?.title ?? "",
+        koppeling: "",
         score: analysisScore,
       } });
       toast.success("Actie verstuurd");
@@ -209,7 +207,7 @@ function NewActionPage() {
         </div>
 
         <section className="overflow-hidden rounded-xl border bg-card shadow-card">
-          <fieldset disabled={analysing} className="space-y-6 p-6">
+          <fieldset disabled={analysing} className="space-y-6 p-6 pb-4">
             {/* Foto */}
             <div>
               <FieldLabel>Foto</FieldLabel>
@@ -250,6 +248,24 @@ function NewActionPage() {
               </div>
             </div>
 
+          </fieldset>
+          <div className="flex flex-wrap items-center gap-3 px-6 pb-2" aria-live="polite">
+            {!editing && (
+              <>
+              {analysing ? (
+                <>
+                  <span role="status" className="inline-flex items-center gap-2 text-sm text-muted-foreground"><LoaderCircle className="size-4 animate-spin motion-reduce:animate-none" /> Foto analyseren…</span>
+                  <Button variant="outline" size="sm" onClick={() => analysisRequest.current?.abort()}><Square className="size-3" /> Stop</Button>
+                </>
+              ) : (
+                <Button variant="outline" disabled={!shownPhoto} onClick={analyse}><Sparkles /> Analyseer met AI</Button>
+              )}
+              </>
+            )}
+              <AnalysisScore value={analysisScore} onChange={setAnalysisScore} disabled={analysing || !shownPhoto} topic={form.tag} indicators={form.indicators} weights={piWeights} onWeightsChange={setPiWeights} />
+              {aiDone && <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground"><Check className="size-3.5" /> Analyse ingevuld · niet opgeslagen</span>}
+            </div>
+          <fieldset disabled={analysing} className="space-y-6 p-6 pt-4">
             {/* Type observatie */}
             <div>
               <FieldLabel>Type observatie · onderwerp</FieldLabel>
@@ -259,6 +275,7 @@ function NewActionPage() {
                     key={t}
                     variant={form.tag === t ? "default" : "secondary"}
                     size="sm"
+                    disabled={t !== "Veiligheid"}
                     aria-pressed={form.tag === t}
                     onClick={() => {
                       setForm((prev) => ({ ...prev, tag: t, indicators: [] }));
@@ -321,16 +338,14 @@ function NewActionPage() {
               </div>
               <div className="mt-4">
                 <FieldLabel>Waar</FieldLabel>
-                <input
-                  list="standaard-zones"
-                  aria-label="Waar"
-                  className="w-full rounded-md border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
-                  value={form.where}
-                  maxLength={200}
-                  placeholder="Werkplek of locatie"
-                  onChange={(e) => update("where", e.target.value)}
-                />
-                <datalist id="standaard-zones">{ZONES.map(zone => <option key={zone} value={zone} />)}</datalist>
+                <div className="flex gap-1.5">
+                  {WAAR_OPTIES.map((w) => (
+                    <Button key={w} variant={form.where === w ? "default" : "secondary"} size="sm" aria-pressed={form.where === w} onClick={() => update("where", w)}>
+                      {form.where === w && <Check className="size-3" />}
+                      {w}
+                    </Button>
+                  ))}
+                </div>
               </div>
               <div className="mt-4">
                 <FieldLabel>Wat · het probleem</FieldLabel>
@@ -454,20 +469,6 @@ function NewActionPage() {
                 ))}
               </div>
             </div>
-            <div>
-              <FieldLabel>Eerder opgelost (koppeling)</FieldLabel>
-              <select
-                aria-label="Koppelen aan opgeloste actie"
-                value={linkedId}
-                onChange={(e) => setLinkedId(e.target.value)}
-                className="h-9 w-full rounded-md border bg-background px-2 text-sm"
-              >
-                <option value="">Geen koppeling</option>
-                {actions.filter((a) => isFinished(a) && a.id !== editing?.id).map((a) => (
-                  <option key={a.id} value={a.id}>{a.title}</option>
-                ))}
-              </select>
-            </div>
 
 
 
@@ -477,22 +478,6 @@ function NewActionPage() {
               </p>
             )}
           </fieldset>
-          <div className="flex flex-wrap items-center gap-3 px-6 pb-5" aria-live="polite">
-            {!editing && (
-              <>
-              {analysing ? (
-                <>
-                  <span role="status" className="inline-flex items-center gap-2 text-sm text-muted-foreground"><LoaderCircle className="size-4 animate-spin motion-reduce:animate-none" /> Foto analyseren…</span>
-                  <Button variant="outline" size="sm" onClick={() => analysisRequest.current?.abort()}><Square className="size-3" /> Stop</Button>
-                </>
-              ) : (
-                <Button variant="outline" disabled={!shownPhoto} onClick={analyse}><Sparkles /> Analyseer met AI</Button>
-              )}
-              </>
-            )}
-              <AnalysisScore value={analysisScore} onChange={setAnalysisScore} disabled={analysing || !shownPhoto} topic={form.tag} indicators={form.indicators} weights={piWeights} onWeightsChange={setPiWeights} />
-              {aiDone && <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground"><Check className="size-3.5" /> Analyse ingevuld · niet opgeslagen</span>}
-            </div>
           <div className="flex items-center justify-between gap-3 border-t bg-card px-6 py-4">
             <Toaster />
             <span />

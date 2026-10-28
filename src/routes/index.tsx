@@ -12,7 +12,7 @@ import { KPI_LEVERTIJD_ZORG, isoDay } from "@/data/mock";
 import { TOPICS, type Observation, type Priority, type Topic } from "@/data/types";
 import { assignees, currentUser, emptyForm, examples, kpiMeasures, type CoachForm } from "@/data/examples";
 import { cn } from "@/lib/utils";
-import { applyPhotoAnalysis } from "@/lib/photo-analysis";
+import { applyPhotoAnalysis, isCompletelyFilled } from "@/lib/photo-analysis";
 import { analysePhoto } from "@/lib/analyse-photo";
 import { AnalysisScore } from "@/components/AnalysisScore";
 
@@ -108,7 +108,7 @@ function NewActionPage() {
 
   async function analyse() {
     const image = photo || form.photo;
-    if (!image || analysing) return;
+    if (!image || analysing || isCompletelyFilled(form)) return;
     const controller = new AbortController();
     analysisRequest.current = controller;
     setAnalysing(true);
@@ -185,6 +185,7 @@ function NewActionPage() {
   }
 
   const shownPhoto = photo || form.photo;
+  const filledIn = isCompletelyFilled(form);
   const measures = kpiMeasures[form.tag] ?? [];
 
   return (
@@ -258,7 +259,10 @@ function NewActionPage() {
                   <Button variant="outline" size="sm" onClick={() => analysisRequest.current?.abort()}><Square className="size-3" /> Stop</Button>
                 </>
               ) : (
-                <Button variant="outline" disabled={!shownPhoto} onClick={analyse}><Sparkles /> Analyseer met AI</Button>
+                <>
+                  <Button variant="outline" disabled={!shownPhoto || filledIn} title={filledIn ? "Alle velden zijn al ingevuld" : undefined} onClick={analyse}><Sparkles /> Analyseer met AI</Button>
+                  {filledIn && <span className="text-xs text-muted-foreground">Alle velden zijn al ingevuld · geen AI-analyse nodig</span>}
+                </>
               )}
               </>
             )}

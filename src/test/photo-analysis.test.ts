@@ -19,5 +19,18 @@ describe("Photo analysis form rules", () => {
     expect(result.tag).toBe("Productiviteit");
     expect(result.photo).toBe("photo.jpg");
     expect(result.indicators).toEqual(["WPI direct"]);
+});
+
+describe("AI analysis availability", () => {
+  it("treats every example as completely filled", () => {
+    for (const example of examples) expect(isCompletelyFilled(example)).toBe(true);
   });
+  it("blocks analysis only when what, why, how and all five why answers have text", () => {
+    expect(isCompletelyFilled(emptyForm)).toBe(false);
+    expect(isCompletelyFilled({ ...emptyForm, what: "   ", why: "x", how: "y", whys: emptyForm.whys.map((w) => ({ ...w, answer: "z" })) })).toBe(false);
+    const filled = { ...emptyForm, what: "Dozen blokkeren de uitgang.", why: "Er is geen bufferplek.", how: "Markeer een bufferplek.", whys: emptyForm.whys.map((w) => ({ ...w, answer: "Omdat het kan." })) };
+    expect(isCompletelyFilled(filled)).toBe(true);
+    expect(isCompletelyFilled({ ...filled, whys: filled.whys.map((w, i) => (i === 4 ? { ...w, answer: "" } : w)) })).toBe(false);
+  });
+});
 });

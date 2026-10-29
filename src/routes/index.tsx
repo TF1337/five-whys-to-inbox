@@ -82,6 +82,9 @@ function NewActionPage() {
   const [error, setError] = useState("");
   const [now, setNow] = useState("");
   const [analysing, setAnalysing] = useState(false);
+  const [cameraOpen, setCameraOpen] = useState(false);
+  const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [aiDone, setAiDone] = useState(false);
   const [analysisScore, setAnalysisScore] = useState<number | null>(null);
   const [piWeights, setPiWeights] = useState<Record<string, number>>({});
@@ -105,6 +108,47 @@ function NewActionPage() {
     reader.onerror = () => setError("De foto kon niet worden gelezen.");
     reader.readAsDataURL(selected);
   }
+
+  function closeCamera() {
+    cameraStream?.getTracks().forEach((t) => t.stop());
+    setCameraStream(null);
+    setCameraOpen(false);
+  }
+
+  async function openCamera() {
+    setError("");
+    if (!navigator.mediaDevices?.getUserMedia) {
+      camera.current?.click();
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
+      setCameraStream(stream);
+      setCameraOpen(true);
+    } catch {
+      camera.current?.click();
+    }
+  }
+
+  function takePhoto() {
+    const video = videoRef.current;
+    if (!video || !video.videoWidth) return;
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext("2d")?.drawImage(video, 0, 0);
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+      loadPhoto(new File([blob], `foto-${Date.now()}.jpg`, { type: "image/jpeg" }));
+      closeCamera();
+    }, "image/jpeg", 0.9);
+  }
+
+  useEffect(() => {
+    if (cameraOpen && videoRef.current && cameraStream) {
+      videoRef.current.srcObject = cameraStream;
+    }
+  }, [cameraOpen, cameraStream]);
 
   async function analyse() {
     const image = photo || form.photo;
@@ -236,7 +280,7 @@ function NewActionPage() {
                   </div>
                 )}
                 <div className="absolute right-2.5 bottom-2.5 flex gap-1.5">
-                  <Button variant="secondary" size="icon" aria-label="Foto opnemen" title="Foto opnemen" onClick={() => camera.current?.click()}><Camera /></Button>
+                  <Button variant="secondary" size="icon" aria-label="Foto opnemen" title="Foto opnemen" onClick={openCamera}><Camera /></Button>
                   <Button variant="secondary" size="sm" onClick={() => file.current?.click()}>
                     <ImagePlus /> {shownPhoto ? "Vervangen" : "Foto toevoegen"}
                   </Button>
@@ -491,6 +535,23 @@ function NewActionPage() {
           </div>
         </section>
       </main>
+      {cameraOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" role="dialog" aria-modal="true" aria-label="Foto maken">
+          <div className="w-full max-w-2xl overflow-hidden rounded-xl border bg-card shadow-card">
+            <div className="flex items-center justify-between border-b px-4 py-3">
+              <h2 className="text-sm font-bold">Foto maken</h2>
+              <Button variant="ghost" size="icon" aria-label="Camera sluiten" onClick={closeCamera}><X /></Button>
+            </div>
+            <div className="bg-black">
+              <video ref={videoRef} autoPlay playsInline muted className="mx-auto max-h-[60vh] w-full object-contain" />
+            </div>
+            <div className="flex items-center justify-center gap-3 border-t px-4 py-4">
+              <Button onClick={takePhoto}><Camera /> Foto maken</Button>
+              <Button variant="outline" onClick={closeCamera}>Annuleren</Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

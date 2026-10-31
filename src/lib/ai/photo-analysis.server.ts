@@ -2,6 +2,7 @@ import { APICallError } from "ai";
 import { z } from "zod";
 import { analysisSchema } from "../photo-analysis";
 import { TOPICS } from "@/data/types";
+import { buildFocus } from "../analysis-focus";
 import { sdkImage } from "./media-parts.server.ts";
 import { createResponsesCall } from "./responses.server.ts";
 
@@ -9,6 +10,7 @@ const inputSchema = z.object({
   image: z.string().max(6000100).regex(/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/),
   zone: z.string().min(1).max(200),
   topic: z.enum(TOPICS),
+  indicators: z.array(z.string().max(100)).max(20).default([]),
 });
 
 export const LEAN_PHOTO_PROMPT = `Je bent een Lean-coach voor werkplekobservaties. Antwoord in het Nederlands, kort, concreet, procesgericht en zonder mensen te beschuldigen.
@@ -43,7 +45,7 @@ export async function handlePhotoAnalysis(request: Request) {
   try { input = inputSchema.parse(await request.json()); }
   catch { return Response.json({ message: "Kies een JPG-, PNG- of WebP-foto en een zone." }, { status: 400 }); }
   const call = createResponsesCall(request, { baseURL: "https://ai.gateway.lovable.dev/v1", apiKey: key, model: "openai/gpt-6-astra" }, [
-    { role: "user", content: [{ type: "text", text: `Gekozen zone: ${input.zone}. Onderwerp: ${input.topic}. Analyseer deze foto.` }, sdkImage(input.image)] },
+    { role: "user", content: [{ type: "text", text: `Gekozen zone: ${input.zone}. Onderwerp: ${input.topic}. ${buildFocus(input.topic, input.indicators)}\nAnalyseer deze foto.` }, sdkImage(input.image)] },
   ], LEAN_PHOTO_PROMPT, analysisSchema);
   const iterator = call.result.fullStream[Symbol.asyncIterator]();
   // Wait only for the upstream start, not the finished output.

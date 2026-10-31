@@ -1,6 +1,6 @@
 import { analysisSchema, type PhotoAnalysis } from "./photo-analysis";
 
-export async function analysePhoto(image: string, zone: string, topic: string, signal: AbortSignal): Promise<PhotoAnalysis> {
+export async function analysePhoto(image: string, zone: string, topic: string, indicators: string[], signal: AbortSignal): Promise<PhotoAnalysis> {
   const source = await fetch(image, { signal });
   if (!source.ok) throw new Error("De foto kon niet worden gelezen.");
   const blob = await source.blob();
@@ -12,7 +12,7 @@ export async function analysePhoto(image: string, zone: string, topic: string, s
   });
   const response = await fetch("/api/analyse", {
     method: "POST", headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ image: dataURL, zone, topic }), signal,
+    body: JSON.stringify({ image: dataURL, zone, topic, indicators }), signal,
   });
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));

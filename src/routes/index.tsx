@@ -323,7 +323,6 @@ function NewActionPage() {
                     key={t}
                     variant={form.tag === t ? "default" : "secondary"}
                     size="sm"
-                    disabled={t !== "Veiligheid"}
                     aria-pressed={form.tag === t}
                     onClick={() => {
                       setForm((prev) => ({ ...prev, tag: t, indicators: [] }));

@@ -3,6 +3,7 @@ import memorial from "@/assets/jefferson-memorial.jpg";
 import nooduitgangFoto from "@/assets/nooduitgang.jpg";
 import olielekkageFoto from "@/assets/olielekkage.jpg";
 import tillenFoto from "@/assets/zwaar-tillen.jpg";
+import belijningFoto from "@/assets/healthcare-belijning.jpg";
 
 export const kpiMeasures: Record<Topic, string[]> = {
   Veiligheid: ["Gedragsregels", "Incidenten met letsel", "Incidenten zonder letsel", "Near misses: 30 dagen"],
@@ -101,11 +102,29 @@ const tillen: Omit<CoachForm, "tag" | "indicators"> = {
   ],
 };
 
+const belijning: Omit<CoachForm, "tag" | "indicators"> = {
+  description: "PDCA van Rakesh & Dylan (staat op de actielijst): op de healthcare inbound vloer staan healthcare-goederen, WPL-spullen en inbound boeken (Springer en braille) door elkaar zonder vloerbelijning. Daardoor worden goederen niet gezien of te laat ingekocht.",
+  photo: belijningFoto,
+  photoLabel: "Healthcare inbound vloer · lesvoorbeeld",
+  where: "Healthcare inbound vloer",
+  what: "Geen vloerbelijning: healthcare-goederen, WPL-spullen en boeken van Springer en braille staan zonder vaste plek door elkaar, waardoor goederen niet gezien of te laat ingekocht worden.",
+  why: "Er is geen visuele standaard (6S) die per goederenstroom een vaste vloerplek aanwijst, dus is niet in één oogopslag zichtbaar wat er staat en wat ontbreekt.",
+  how: "PDCA: plaats vloerbelijning met 3 lijnen voor euro pallets healthcare en 1 lijn voor WPL-goederen, met borden per stroom (incl. Springer/braille). Check wekelijks het aantal gemiste of te laat ingekochte goederen en borg de belijning in de 6S-ronde.",
+  whys: [
+    { question: "Waarom worden goederen niet gezien of te laat ingekocht?", answer: "Op de vloer is niet zichtbaar welke goederen er staan en welke ontbreken." },
+    { question: "Waarom is dat niet zichtbaar?", answer: "Healthcare, WPL en boeken (Springer, braille) staan door elkaar." },
+    { question: "Waarom staan die stromen door elkaar?", answer: "Er is geen vaste plek per goederenstroom op de inbound vloer." },
+    { question: "Waarom is er geen vaste plek?", answer: "Er is geen vloerbelijning en geen bebording aangebracht." },
+    { question: "Waarom is er geen belijning?", answer: "Bij de inrichting is geen visuele 6S-standaard voor de healthcare inbound vloer vastgelegd." },
+  ],
+};
+
 export const examples: CoachForm[] = [
   { tag: "Kwaliteit", indicators: [], ...example },
   { tag: "Veiligheid", indicators: ["Gedragsregels"], ...nooduitgang },
   { tag: "Veiligheid", indicators: ["Near misses: 30 dagen"], ...olielekkage },
   { tag: "Personeel", indicators: ["Ziekteverzuim"], ...tillen },
+  { tag: "Productiviteit", indicators: ["Healthcare Index", "WPL Index"], ...belijning },
 ];
 
 export const emptyForm: CoachForm = {

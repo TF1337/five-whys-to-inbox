@@ -4,6 +4,7 @@ import nooduitgangFoto from "@/assets/nooduitgang.jpg";
 import olielekkageFoto from "@/assets/olielekkage.jpg";
 import tillenFoto from "@/assets/zwaar-tillen.jpg";
 import belijningFoto from "@/assets/healthcare-belijning.jpg";
+import capuchonFoto from "@/assets/capuchon-werkvloer.jpg";
 
 export const kpiMeasures: Record<Topic, string[]> = {
   Veiligheid: ["Gedragsregels", "Incidenten met letsel", "Incidenten zonder letsel", "Near misses: 30 dagen"],
@@ -119,12 +120,30 @@ const belijning: Omit<CoachForm, "tag" | "indicators"> = {
   ],
 };
 
+const capuchon: Omit<CoachForm, "tag" | "indicators"> = {
+  description: "Medewerker loopt in OVM over de looproute met de capuchon van zijn hoodie op het hoofd. Dat mag niet op de werkvloer: het beperkt zicht en gehoor op heftrucks en reachtrucks.",
+  photo: capuchonFoto,
+  photoLabel: "Looproute OVM, gang B3 · lesvoorbeeld",
+  where: "OVM",
+  what: "Medewerker draagt de capuchon van zijn hoodie op het hoofd op de looproute bij gang B3, terwijl er een reachtruck rijdt. Dit wijkt af van de gedragsregel werkkleding: geen capuchon op de werkvloer. Hesje en veiligheidsschoenen zijn wel in orde.",
+  why: "Hypothese, te toetsen: er is geen passend alternatief tegen kou in de hal en de kledingregel wordt bij de start van de dienst niet besproken of gecontroleerd.",
+  how: "Direct: medewerker vriendelijk aanspreken en capuchon af, uitleggen waarom (zicht en gehoor). Structureel: warme werkkleding/muts onder de helm beschikbaar stellen, de kledingregel opnemen in de startbriefing en zichtbaar maken bij de ingang. Check: twee weken lang tijdens de Gemba-ronde het aantal capuchon-waarnemingen per dienst tellen.",
+  whys: [
+    { question: "Waarom draagt de medewerker een capuchon op de werkvloer?", answer: "Hypothese, te toetsen: het is koud in de hal, vooral bij de inbound-deuren. Gemba-check: temperatuur meten en vragen naar beleving." },
+    { question: "Waarom lost hij de kou op met een capuchon?", answer: "Hypothese, te toetsen: er is geen toegestane warme werkkleding of muts beschikbaar. Check het kledingaanbod en de uitgifte." },
+    { question: "Waarom is er geen toegestaan alternatief beschikbaar?", answer: "Hypothese, te toetsen: in de kledingstandaard is geen wintervariant opgenomen. Vergelijk de standaard met de seizoenen." },
+    { question: "Waarom valt de afwijking niet eerder op en wordt die niet aangesproken?", answer: "Hypothese, te toetsen: de kledingregel wordt niet besproken in de startbriefing en niet getoetst in de ronde. Bekijk briefing en rondechecklist." },
+    { question: "Waarom is de regel niet geborgd in briefing en ronde?", answer: "Hypothese, te toetsen: de gedragsregels zijn niet vertaald naar een vaste 6S/VGWM-controle met eigenaar. Controleer of er een eigenaar en checkmoment is." },
+  ],
+};
+
 export const examples: CoachForm[] = [
   { tag: "Kwaliteit", indicators: [], ...example },
   { tag: "Veiligheid", indicators: ["Gedragsregels"], ...nooduitgang },
   { tag: "Veiligheid", indicators: ["Near misses: 30 dagen"], ...olielekkage },
   { tag: "Personeel", indicators: ["Ziekteverzuim"], ...tillen },
   { tag: "Productiviteit", indicators: ["Healthcare Index", "WPL Index"], ...belijning },
+  { tag: "Veiligheid", indicators: ["Gedragsregels"], ...capuchon },
 ];
 
 export const emptyForm: CoachForm = {

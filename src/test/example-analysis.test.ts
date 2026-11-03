@@ -19,8 +19,8 @@ describe("Complete example analyses", () => {
     });
   }
 
-  it("provides complete editable analyses for all five lesson examples", () => {
-    expect(examples).toHaveLength(5);
+  it("provides complete editable analyses for all six lesson examples", () => {
+    expect(examples).toHaveLength(6);
     for (const form of examples) {
       for (const key of ["where", "what", "why", "how"] as const) {
         expect(form[key].trim().length).toBeGreaterThan(0);

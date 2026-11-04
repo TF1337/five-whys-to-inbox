@@ -20,6 +20,7 @@ Wat: beschrijf uitsluitend zichtbaar bewijs en de afwijking van een veilige, ges
 5× waarom: geef precies vijf vraag-antwoordparen. De eerste vraag gaat over het probleem uit Wat. Iedere volgende vraag onderzoekt de oorzaak in het voorgaande antwoord. Ga van zichtbaar symptoom naar proces, standaardwerk, 6S, borging of onderhoud, niet naar schuld van een persoon. Dieperliggende oorzaken zijn niet uit een foto te bewijzen: markeer ieder niet-zichtbaar antwoord expliciet als 'Hypothese, te toetsen:' en benoem een concrete Gemba-controle. Forceer geen zekerheid of verzonnen causale feiten. Bij onvoldoende bewijs zijn de vijf stappen gerichte onderzoeksvragen met te toetsen hypothesen.
 Waarom: vat de vermoedelijke grondoorzaak van de vijfde stap samen; vermeld expliciet 'Hypothese, te toetsen'. Dit is de oorzaak, niet alleen het risico of gevolg.
 Hoe: een veilige directe beheersmaatregel, een structurele maatregel die de vermoedelijke oorzaak uit Waarom aanpakt en een concrete effectcontrole (PDCA). Presenteer voorstellen niet als uitgevoerde acties.
+Lean-regels: Wat is één hoofdafwijking, geformuleerd als standaard (wat er hoort te zijn) tegenover de werkelijkheid. De 5× waarom loopt van de werkplek via methode, materiaal, machine en management (4M) en eindigt bij een systeemoorzaak: ontbrekende standaard, borging of eigenaar. De effectcontrole in Hoe is meetbaar en sluit aan bij het gekozen meetpunt.
 Gebruik 1–2 korte zinnen per veld en per antwoord. Lever uitsluitend het gevraagde object.`;
 
 function safeError(error: unknown) {

@@ -66,7 +66,7 @@ export function createActionPdf(data: ActionPdfData, resources: PdfResources): j
   doc.addFont("Action-Regular.ttf", "Action", "normal");
   doc.addFileToVFS("Action-Bold.ttf", resources.boldFont);
   doc.addFont("Action-Bold.ttf", "Action", "bold");
-  doc.setProperties({ title: "5W1H-analyse — SLA Healthcare", subject: data.form.what, creator: "SLA Healthcare" });
+  doc.setProperties({ title: "5W1H-analyse", subject: data.form.what });
   const p = resources.palette;
   const margin = 36, width = doc.internal.pageSize.getWidth() - margin * 2;
   const text = (value: string, x: number, y: number, size: number, bold = false, color = p.ink) => {
@@ -125,7 +125,7 @@ export function createActionPdf(data: ActionPdfData, resources: PdfResources): j
     y += block.height;
   });
   doc.setDrawColor(p.border); doc.line(margin, 804, margin + width, 804);
-  text("Vertrouwelijk · SLA Healthcare", margin, 820, 8, false, p.muted);
+  text("Vertrouwelijk", margin, 820, 8, false, p.muted);
   text("Pagina 1 van 1", margin + width - 69, 820, 8, false, p.muted);
   return doc;
 }

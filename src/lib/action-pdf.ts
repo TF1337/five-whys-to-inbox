@@ -73,7 +73,6 @@ export function createActionPdf(data: ActionPdfData, resources: PdfResources): j
     doc.setFont("Action", bold ? "bold" : "normal"); doc.setFontSize(size); doc.setTextColor(color);
     doc.text(value, x, y);
   };
-  text("SLA Healthcare", margin, 48, 12, true);
   text("ACTIERAPPORT", margin, 65, 8, false, p.muted);
   text("5W1H-analyse", margin, 99, 24, true);
   doc.setFillColor(p.brand); doc.rect(margin, 111, 42, 3, "F");

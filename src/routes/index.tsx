@@ -33,7 +33,6 @@ export const Route = createFileRoute("/")({
 });
 
 const WAAR_OPTIES = ["OVM", "LDC"] as const;
-const TERMIJNEN = ["7 dagen", "14 dagen", "21 dagen", "28 dagen"] as const;
 const AANPAKKEN: Priority[] = ["Actie / Just Do It", "PDCA / 6S", "Change"];
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
@@ -42,6 +41,11 @@ function FieldLabel({ children }: { children: React.ReactNode }) {
 
 function formFromObservation(o: Observation): CoachForm {
   return {
+    who: o.w5h.wie,
+    when: o.w5h.wanneer,
+    location: o.w5h.waar,
+    problemWhy: "",
+    extent: "",
     tag: o.topic,
     indicators: [],
     description: o.description,
@@ -67,12 +71,7 @@ function NewActionPage() {
   const [exampleIndex, setExampleIndex] = useState(editing ? -1 : 0);
   const isExample = exampleIndex >= 0;
   const [photo, setPhoto] = useState<string | null>(null);
-  const [termijn, setTermijn] = useState<(typeof TERMIJNEN)[number]>(() => {
-    if (!editing?.due) return "14 dagen";
-    const days = Math.round((new Date(editing.due).getTime() - Date.now()) / 86400000);
-    const nearest = [7, 14, 21, 28].reduce((b, d) => (Math.abs(d - days) < Math.abs(b - days) ? d : b));
-    return `${nearest} dagen` as (typeof TERMIJNEN)[number];
-  });
+  const [termijn, setTermijn] = useState(editing?.due?.slice(0, 10) ?? "");
   const [aanpak, setAanpak] = useState<Priority>(editing?.priority ?? "Actie / Just Do It");
   const [assignee, setAssignee] = useState(() => {
     const match = assignees.find((p) => p.name === editing?.owner);
@@ -161,7 +160,7 @@ function NewActionPage() {
     setPiWeights({});
     setError("");
     try {
-      const analysis = await analysePhoto(image, form.where, form.tag, form.indicators, controller.signal);
+      const analysis = await analysePhoto(image, form.where, form.tag, form.indicators, controller.signal, { who: form.who, when: form.when, location: form.location, problemWhy: form.problemWhy, extent: form.extent });
       if (controller.signal.aborted) return;
       const next = applyPhotoAnalysis(form, analysis);
       setForm(next);
@@ -189,14 +188,14 @@ function NewActionPage() {
     setExampleIndex(nextIndex);
     setPhoto(null);
     setError("");
-    setTermijn("14 dagen");
+    setTermijn("");
     setAanpak("Actie / Just Do It");
     setAssignee("");
     setExpanded(true);
   }
 
   const shownPhoto = photo || form.photo;
-  const pdfData = JSON.stringify({ form, wie: editingObs?.w5h.wie ?? currentUser, wanneer: editingObs?.w5h.wanneer ?? now, eigenaar: assignee, termijn, aanpak, score: analysisScore });
+  const pdfData = JSON.stringify({ form, wie: form.who ?? "", wanneer: form.when ?? "", eigenaar: assignee, termijn, aanpak, score: analysisScore });
   useEffect(() => {
     let active = true;
     setPdfError("");
@@ -373,27 +372,6 @@ function NewActionPage() {
                   {isExample ? "Voorbeeld" : "Bewerkbaar"}
                 </span>
               </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div>
-                  <FieldLabel>Wie · ingelogd</FieldLabel>
-                  <p className="text-sm">{editingObs?.w5h.wie ?? currentUser}</p>
-                </div>
-                <div>
-                  <FieldLabel>Wanneer · automatisch</FieldLabel>
-                  <p className="text-sm">{editingObs?.w5h.wanneer ?? now}</p>
-                </div>
-              </div>
-              <div className="mt-4">
-                <FieldLabel>Waar</FieldLabel>
-                <div className="flex gap-1.5">
-                  {WAAR_OPTIES.map((w) => (
-                    <Button key={w} variant={form.where === w ? "default" : "secondary"} size="sm" aria-pressed={form.where === w} onClick={() => update("where", w)}>
-                      {form.where === w && <Check className="size-3" />}
-                      {w}
-                    </Button>
-                  ))}
-                </div>
-              </div>
               <div className="mt-4">
                 <FieldLabel>Wat · het probleem</FieldLabel>
                 <textarea
@@ -407,16 +385,32 @@ function NewActionPage() {
                 />
               </div>
               <div className="mt-4">
-                <FieldLabel>Hoe · maatregel & controle</FieldLabel>
-                <textarea
-                  aria-label="Hoe · maatregel & controle"
-                  className="w-full rounded-md border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
-                  rows={3}
-                  maxLength={1500}
-                  value={form.how}
-                  placeholder="Welke actie pakt de oorzaak aan?"
-                  onChange={(e) => update("how", e.target.value)}
-                />
+                <FieldLabel>Wanneer · wanneer treedt het op?</FieldLabel>
+                <textarea aria-label="Wanneer · wanneer treedt het op?" className="w-full rounded-md border bg-card px-3 py-2 text-sm outline-none focus:border-primary" rows={2} maxLength={1500} value={form.when ?? ""} placeholder="Bij welke handeling of op welke momenten?" onChange={(e) => update("when", e.target.value)} />
+              </div>
+              <div className="mt-4">
+                <FieldLabel>Waar</FieldLabel>
+                <div className="flex gap-1.5">
+                  {WAAR_OPTIES.map((w) => (
+                    <Button key={w} variant={form.where === w ? "default" : "secondary"} size="sm" aria-pressed={form.where === w} onClick={() => update("where", w)}>
+                      {form.where === w && <Check className="size-3" />}
+                      {w}
+                    </Button>
+                  ))}
+                </div>
+                <input aria-label="Waar · specifieke zone / locatie" className="mt-2 w-full rounded-md border bg-card px-3 py-2 text-sm outline-none focus:border-primary" maxLength={1500} value={form.location ?? ""} placeholder="Specifieke zone / locatie" onChange={(e) => update("location", e.target.value)} />
+              </div>
+              <div className="mt-4">
+                <FieldLabel>Wie · wie merkt het probleem?</FieldLabel>
+                <textarea aria-label="Wie · wie merkt het probleem?" className="w-full rounded-md border bg-card px-3 py-2 text-sm outline-none focus:border-primary" rows={2} maxLength={1500} value={form.who ?? ""} placeholder="Betrokken medewerkers of functies" onChange={(e) => update("who", e.target.value)} />
+              </div>
+              <div className="mt-4">
+                <FieldLabel>Waarom · waarom is dit een probleem?</FieldLabel>
+                <textarea aria-label="Waarom · waarom is dit een probleem?" className="w-full rounded-md border bg-card px-3 py-2 text-sm outline-none focus:border-primary" rows={2} maxLength={1500} value={form.problemWhy ?? ""} placeholder="Gevolgen, risico of impact van het probleem" onChange={(e) => update("problemWhy", e.target.value)} />
+              </div>
+              <div className="mt-4">
+                <FieldLabel>Hoe · hoe vaak en hoe groot?</FieldLabel>
+                <textarea aria-label="Hoe · hoe vaak en hoe groot?" className="w-full rounded-md border bg-card px-3 py-2 text-sm outline-none focus:border-primary" rows={2} maxLength={1500} value={form.extent ?? ""} placeholder="Frequentie, omvang en impact; wat is nog niet gemeten?" onChange={(e) => update("extent", e.target.value)} />
               </div>
               <Button variant="ghost" className="mt-1 h-8 px-0 text-xs text-primary" aria-expanded={expanded} onClick={() => setExpanded((v) => !v)}>
                 <Target className="size-3.5" />
@@ -457,9 +451,9 @@ function NewActionPage() {
                 </div>
               )}
               <div className="mt-3">
-                <FieldLabel>Waarom · vermoedelijke grondoorzaak</FieldLabel>
+                <FieldLabel>Grondoorzaak · conclusie na de 5× waarom</FieldLabel>
                 <textarea
-                  aria-label="Waarom · vermoedelijke grondoorzaak"
+                  aria-label="Grondoorzaak · conclusie na de 5× waarom"
                   className="w-full rounded-md border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
                   rows={2}
                   maxLength={1500}
@@ -470,16 +464,20 @@ function NewActionPage() {
               </div>
             </div>
 
+              <div className="mt-4">
+                <FieldLabel>Maatregel & controle</FieldLabel>
+                <textarea aria-label="Maatregel & controle" className="w-full rounded-md border bg-card px-3 py-2 text-sm outline-none focus:border-primary" rows={2} maxLength={1500} value={form.how ?? ""} placeholder="Directe maatregel, structurele aanpak en effectcontrole" onChange={(e) => update("how", e.target.value)} />
+              </div>
             {/* Toewijzen + termijn + aanpak */}
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <FieldLabel>Toewijzen aan</FieldLabel>
-                <select
+                <FieldLabel>Eigenaar</FieldLabel>
+                <select aria-label="Eigenaar"
                   className="w-full rounded-md border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
                   value={assignee}
                   onChange={(e) => setAssignee(e.target.value)}
                 >
-                  <option value="">Kies een verantwoordelijke…</option>
+                  <option value="">Kies een eigenaar…</option>
                   {assignees.map((p) => (
                     <option key={p.name} value={`${p.name} · ${p.role}`}>
                       {p.name} · {p.role}
@@ -488,21 +486,8 @@ function NewActionPage() {
                 </select>
               </div>
               <div>
-                <FieldLabel>Termijn</FieldLabel>
-                <div className="grid grid-cols-4 gap-1.5">
-                  {TERMIJNEN.map((t) => (
-                    <Button
-                      key={t}
-                      variant="secondary"
-                      size="sm"
-                      className={cn(termijn === t && "border border-sig-oranje bg-accent/15 text-foreground")}
-                      aria-pressed={termijn === t}
-                      onClick={() => setTermijn(t)}
-                    >
-                      {t}
-                    </Button>
-                  ))}
-                </div>
+                <FieldLabel>Deadline</FieldLabel>
+                <input type="date" aria-label="Deadline" className="w-full rounded-md border bg-card px-3 py-2 text-sm outline-none focus:border-primary" value={termijn} onChange={(e) => setTermijn(e.target.value)} />
               </div>
             </div>
             <div>

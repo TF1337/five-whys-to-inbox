@@ -2,13 +2,23 @@ import { describe, expect, it } from "vitest";
 import { emptyForm, examples } from "@/data/examples";
 import { applyPhotoAnalysis, isCompletelyFilled } from "@/lib/photo-analysis";
 
-const analysis = { what: "Dozen blokkeren de nooduitgang.", why: "Hypothese, te toetsen: bufferafspraken ontbreken.", how: "Maak de uitgang vrij en toets de bufferafspraken.", whys: Array.from({ length: 5 }, (_, i) => ({ question: `Waarom stap ${i + 1}?`, answer: `Hypothese, te toetsen: oorzaak ${i + 1}.` })) };
+const analysis = { who: "Inboundmedewerkers", when: "Na het lossen", location: "Nooduitgang inbound west", problemWhy: "Evacuatie wordt belemmerd", extent: "Frequentie nog meten", what: "Dozen blokkeren de nooduitgang.", why: "Hypothese, te toetsen: bufferafspraken ontbreken.", how: "Maak de uitgang vrij en toets de bufferafspraken.", whys: Array.from({ length: 5 }, (_, i) => ({ question: `Waarom stap ${i + 1}?`, answer: `Hypothese, te toetsen: oorzaak ${i + 1}.` })) };
 describe("Photo analysis form rules", () => {
   it("preserves the preselected zone while filling What and Why", () => {
     const result = applyPhotoAnalysis({ ...emptyForm, where: "Outbound" }, analysis);
     expect(result.where).toBe("Outbound");
     expect(result.what).toBe("Dozen blokkeren de nooduitgang.");
     expect(result.why).toBe("Hypothese, te toetsen: bufferafspraken ontbreken.");
+  });
+  it("keeps problem impact separate from the root cause", () => {
+    const result = applyPhotoAnalysis(emptyForm, analysis);
+    expect(result.problemWhy).toBe("Evacuatie wordt belemmerd");
+    expect(result.why).toBe("Hypothese, te toetsen: bufferafspraken ontbreken.");
+  });
+  it("preserves the entered occurrence time and specific location", () => {
+    const result = applyPhotoAnalysis({ ...emptyForm, when: "Bij inslag", location: "LDC vak A" }, analysis);
+    expect(result.when).toBe("Bij inslag");
+    expect(result.location).toBe("LDC vak A");
   });
   it("requires exactly five why steps", () => {
     expect(applyPhotoAnalysis(emptyForm, analysis).whys).toHaveLength(5);
@@ -28,8 +38,11 @@ describe("AI analysis availability", () => {
   it("blocks analysis only when what, why, how and all five why answers have text", () => {
     expect(isCompletelyFilled(emptyForm)).toBe(false);
     expect(isCompletelyFilled({ ...emptyForm, what: "   ", why: "x", how: "y", whys: emptyForm.whys.map((w) => ({ ...w, answer: "z" })) })).toBe(false);
-    const filled = { ...emptyForm, what: "Dozen blokkeren de uitgang.", why: "Er is geen bufferplek.", how: "Markeer een bufferplek.", whys: emptyForm.whys.map((w) => ({ ...w, answer: "Omdat het kan." })) };
+    const filled = { ...emptyForm, who: "Inbound", when: "Na lossen", location: "Nooduitgang", problemWhy: "Vluchtweg geblokkeerd", extent: "Nog meten", what: "Dozen blokkeren de uitgang.", why: "Er is geen bufferplek.", how: "Markeer een bufferplek.", whys: emptyForm.whys.map((w) => ({ ...w, answer: "Omdat het kan." })) };
     expect(isCompletelyFilled(filled)).toBe(true);
+    for (const field of ["who", "when", "location", "problemWhy", "extent"] as const) {
+      expect(isCompletelyFilled({ ...filled, [field]: "" })).toBe(false);
+    }
     expect(isCompletelyFilled({ ...filled, whys: filled.whys.map((w, i) => (i === 4 ? { ...w, answer: "" } : w)) })).toBe(false);
   });
 });

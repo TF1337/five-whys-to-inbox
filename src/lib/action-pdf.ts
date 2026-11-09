@@ -80,12 +80,16 @@ export function createActionPdf(data: ActionPdfData, resources: PdfResources): j
   const rows: Array<[string, string, boolean?]> = [
     ["Type observatie", data.form.tag],
     ["Prestatieindicatoren", data.form.indicators.join(" · ") || "—"],
-    ["Wie", data.wie], ["Wanneer", data.wanneer], ["Waar", data.form.where],
     ["Wat · het probleem", data.form.what],
-    ["Waarom · grondoorzaak", data.form.why],
+    ["Wanneer · optreedmoment", data.form.when || data.wanneer],
+    ["Waar · locatie", [data.form.where, data.form.location].filter(Boolean).join(" · ")],
+    ["Wie · betrokkenen", data.form.who || data.wie],
+    ["Waarom · probleemimpact", data.form.problemWhy || "Nog vast te stellen"],
+    ["Hoe · frequentie & omvang", data.form.extent || "Nog te meten"],
     ...data.form.whys.map((why, i): [string, string, boolean?] => [`${i + 1}× Waarom`, `${why.question}\n${why.answer || "—"}`]),
-    ["Hoe · maatregel & controle", data.form.how, true],
-    ["Verantwoordelijke", data.eigenaar || "—"], ["Termijn", data.termijn], ["Aanpak", data.aanpak],
+    ["Grondoorzaak · conclusie", data.form.why],
+    ["Maatregel & controle", data.form.how, true],
+    ["Eigenaar", data.eigenaar || "—"], ["Deadline", data.termijn || "Nog af te spreken"], ["Aanpak", data.aanpak],
     ["Score", data.score === null ? "Niet beoordeeld" : `${data.score}%`],
   ];
   const top = resources.photo ? 245 : 133;

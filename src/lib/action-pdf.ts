@@ -84,7 +84,7 @@ export function createActionPdf(data: ActionPdfData, resources: PdfResources): j
     ["Wanneer · optreedmoment", data.form.when || data.wanneer],
     ["Waar · locatie", [data.form.where, data.form.location].filter(Boolean).join(" · ")],
     ["Wie · betrokkenen", data.form.who || data.wie],
-    ["Waarom · probleemimpact", data.form.problemWhy || "Nog vast te stellen"],
+    ["Waarom · impact", data.form.problemWhy || "Nog vast te stellen"],
     ["Hoe · frequentie & omvang", data.form.extent || "Nog te meten"],
     ...data.form.whys.map((why, i): [string, string, boolean?] => [`${i + 1}× Waarom`, `${why.question}\n${why.answer || "—"}`]),
     ["Grondoorzaak · conclusie", data.form.why],

@@ -160,7 +160,7 @@ function NewActionPage() {
     setPiWeights({});
     setError("");
     try {
-      const analysis = await analysePhoto(image, form.where, form.tag, form.indicators, controller.signal, { who: form.who, when: form.when, location: form.location, problemWhy: form.problemWhy, extent: form.extent });
+      const analysis = await analysePhoto(image, form.where, form.tag, form.indicators, controller.signal, { who: form.who ?? "", when: form.when ?? "", location: form.location ?? "", problemWhy: form.problemWhy ?? "", extent: form.extent ?? "" });
       if (controller.signal.aborted) return;
       const next = applyPhotoAnalysis(form, analysis);
       setForm(next);

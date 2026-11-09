@@ -32,6 +32,11 @@ export type CoachForm = {
   why: string;
   how: string;
   whys: Why[];
+  who?: string;
+  when?: string;
+  location?: string;
+  problemWhy?: string;
+  extent?: string;
 };
 
 const example: Omit<CoachForm, "tag" | "indicators"> = {
@@ -137,7 +142,7 @@ const capuchon: Omit<CoachForm, "tag" | "indicators"> = {
   ],
 };
 
-export const examples: CoachForm[] = [
+const lessonExamples: CoachForm[] = [
   { tag: "Kwaliteit", indicators: [], ...example },
   { tag: "Veiligheid", indicators: ["Gedragsregels"], ...nooduitgang },
   { tag: "Veiligheid", indicators: ["Near misses: 30 dagen"], ...olielekkage },
@@ -146,9 +151,24 @@ export const examples: CoachForm[] = [
   { tag: "Veiligheid", indicators: ["Gedragsregels"], ...capuchon },
 ];
 
+const problemDetails = [
+  { who: "Beheerders en schoonmaakmedewerkers van het monument.", when: "Bij het reinigen van het monument; exacte frequentie nog meten.", location: "Marmeren buitenzijde van het Jefferson Memorial.", problemWhy: "Het marmer raakt beschadigd en vaker reinigen vraagt extra onderhoud en tijd.", extent: "De schoonmaakfrequentie en mate van slijtage zijn nog niet gemeten; leg deze vast als nulmeting." },
+  { who: "Medewerkers bij inbound west en mensen die de vluchtroute nodig hebben.", when: "Na het lossen, wanneer overloop voor de nooduitgang wordt gezet.", location: "Bij de nooduitgang van inbound west.", problemWhy: "Een geblokkeerde vluchtroute belemmert evacuatie bij een calamiteit.", extent: "De uitgang is op de foto geblokkeerd; duur en aantal waarnemingen per dienst nog meten." },
+  { who: "Medewerkers en heftruckchauffeurs in gang C.", when: "Tijdens gebruik of stilstand van heftruck 3; het begin van de lekkage nog vaststellen.", location: "Gang C, bij stelling 14 en heftruck 3.", problemWhy: "Olie op de vloer geeft risico op uitglijden en vervuiling.", extent: "Een plas olie is zichtbaar; oppervlakte, lekduur en herhaling nog meten." },
+  { who: "Orderpickmedewerkers in de zone voor zware artikelen.", when: "Bij het oppakken van dozen vanaf lage pallets gedurende de dienst.", location: "Orderpick, zone zwaar, bij de lage pallets.", problemWhy: "Tillen met gebogen rug verhoogt de fysieke belasting en het risico op klachten.", extent: "Volgens de melding gaat het om dozen boven 20 kg; gewicht, tilfrequentie en belasting op locatie bevestigen." },
+  { who: "Medewerkers Healthcare inbound en WPL; met Rakesh en Dylan bevestigen wie het ervaart.", when: "Bij plaatsen en verwerken van inboundgoederen; concrete momenten met medewerkers vastleggen.", location: "Healthcare inbound vloer, bij Healthcare-, WPL-, Springer- en braillegoederen.", problemWhy: "Goederen worden niet gezien of te laat ingekocht; dit verstoort de doorstroming.", extent: "Aantal gemiste of te laat ingekochte goederen en zoektijd nog meten als nulmeting." },
+  { who: "De medewerker op de looproute en chauffeurs van passerende trucks.", when: "Tijdens het lopen met de capuchon op terwijl een reachtruck passeert.", location: "Looproute OVM, gang B3.", problemWhy: "Een capuchon beperkt zicht en gehoor op passerende trucks en wijkt af van de kledingregel.", extent: "Eén waarneming op de foto; frequentie per dienst en duur nog vaststellen met een Gemba-ronde." },
+];
+export const examples: CoachForm[] = lessonExamples.map((form, i) => ({ ...form, ...problemDetails[i] }));
+
 export const emptyForm: CoachForm = {
   tag: "Veiligheid",
   indicators: [],
+  who: "",
+  when: "",
+  location: "",
+  problemWhy: "",
+  extent: "",
   description: "",
   photo: "",
   photoLabel: "",

@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Action export uses a browser-generated, single-page PDF with bundled Unicode fonts and semantic page colors; prepare the Blob before clicking so downloads retain user activation on mobile and no email service is needed.
+- Keep problem impact, frequency/magnitude, affected people, occurrence context and specific location distinct from root cause and measures in the form, AI output and PDF; legacy why/how fields remain root cause/measures to preserve existing observations.

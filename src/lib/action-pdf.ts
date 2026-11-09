@@ -92,7 +92,8 @@ export function createActionPdf(data: ActionPdfData, resources: PdfResources): j
     ["Eigenaar", data.eigenaar || "—"], ["Deadline", data.termijn || "Nog af te spreken"], ["Aanpak", data.aanpak],
     ["Score", data.score === null ? "Niet beoordeeld" : `${data.score}%`],
   ];
-  const top = resources.photo ? 245 : 133;
+  const photoHeight = 210;
+  const top = resources.photo ? 129 + photoHeight + 16 : 133;
   const available = 790 - top;
   const labelWidth = 139, contentWidth = width - labelWidth - 18;
   const layout = (size: number) => {
@@ -113,9 +114,9 @@ export function createActionPdf(data: ActionPdfData, resources: PdfResources): j
   }
   if (resources.photo) {
     const image = doc.getImageProperties(resources.photo);
-    const scale = Math.min(width / image.width, 100 / image.height);
-    doc.setFillColor(p.soft); doc.rect(margin, 129, width, 100, "F");
-    doc.addImage(resources.photo, "JPEG", margin + (width - image.width * scale) / 2, 129 + (100 - image.height * scale) / 2, image.width * scale, image.height * scale);
+    const scale = Math.min(width / image.width, photoHeight / image.height);
+    doc.setFillColor(p.soft); doc.rect(margin, 129, width, photoHeight, "F");
+    doc.addImage(resources.photo, "JPEG", margin + (width - image.width * scale) / 2, 129 + (photoHeight - image.height * scale) / 2, image.width * scale, image.height * scale);
   }
   let y = top;
   blocks.forEach((block, i) => {

@@ -21,4 +21,12 @@ describe("Action PDF export", () => {
   it("requires the factual observation before exporting", () => {
     expect(() => createActionPdf({ ...action, form: emptyForm }, resources)).toThrow("Wat");
   });
+  it("keeps every example with an enlarged photo on one page", () => {
+    const photo = `data:image/jpeg;base64,${readFileSync("src/assets/nooduitgang.jpg").toString("base64")}`;
+    for (const form of examples) {
+      const pdf = createActionPdf({ ...action, form }, { ...resources, photo });
+      expect(pdf.getNumberOfPages()).toBe(1);
+      expect(pdf.output("arraybuffer").byteLength).toBeGreaterThan(1000);
+    }
+  });
 });

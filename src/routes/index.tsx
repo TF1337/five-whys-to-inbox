@@ -407,15 +407,15 @@ function NewActionPage() {
                 />
               </div>
               <div className="mt-4">
-                <FieldLabel>Waarom · vermoedelijke grondoorzaak</FieldLabel>
+                <FieldLabel>Hoe · maatregel & controle</FieldLabel>
                 <textarea
-                  aria-label="Waarom · vermoedelijke grondoorzaak"
+                  aria-label="Hoe · maatregel & controle"
                   className="w-full rounded-md border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
-                  rows={2}
+                  rows={3}
                   maxLength={1500}
-                  value={form.why}
-                  placeholder="Wat veroorzaakt het probleem?"
-                  onChange={(e) => update("why", e.target.value)}
+                  value={form.how}
+                  placeholder="Welke actie pakt de oorzaak aan?"
+                  onChange={(e) => update("how", e.target.value)}
                 />
               </div>
               <Button variant="ghost" className="mt-1 h-8 px-0 text-xs text-primary" aria-expanded={expanded} onClick={() => setExpanded((v) => !v)}>
@@ -457,15 +457,15 @@ function NewActionPage() {
                 </div>
               )}
               <div className="mt-3">
-                <FieldLabel>Hoe · maatregel & controle</FieldLabel>
+                <FieldLabel>Waarom · vermoedelijke grondoorzaak</FieldLabel>
                 <textarea
-                  aria-label="Hoe · maatregel & controle"
+                  aria-label="Waarom · vermoedelijke grondoorzaak"
                   className="w-full rounded-md border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
-                  rows={3}
+                  rows={2}
                   maxLength={1500}
-                  value={form.how}
-                  placeholder="Welke actie pakt de oorzaak aan?"
-                  onChange={(e) => update("how", e.target.value)}
+                  value={form.why}
+                  placeholder="Wat veroorzaakt het probleem?"
+                  onChange={(e) => update("why", e.target.value)}
                 />
               </div>
             </div>
